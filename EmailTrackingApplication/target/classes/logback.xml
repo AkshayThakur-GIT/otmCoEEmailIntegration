@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+
+	<!--<property resource="Mail.properties"/> -->
+	<property name="LOG.DIR" value="logs" />
+	<property name="LOG.MAX.FILES" value="10" />
+	<property name="LOG.MAX.SIZE" value="1MB" />
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- Active output target -->
+		<file>${LOG.DIR}/Email-TrackApplication.log</file>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<!-- Archived log files -->
+			<fileNamePattern>${LOG.DIR}/Email-TrackApplication.%i.log
+			</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>${LOG.MAX.FILES}</maxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>${LOG.MAX.SIZE}</maxFileSize>
+		</triggeringPolicy>
+
+		<encoder>
+			<pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+			by default -->
+		<encoder>
+			<pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.utility" level="DEBUG" />
+
+	<!--<root level="WARN"> -->
+	<root level="INFO">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</Configuration>
